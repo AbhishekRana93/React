@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -13,63 +14,45 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.awt.Button;
 import java.util.Iterator;
+
+import javax.swing.Action;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 
 
 public class GameScreen implements Screen {
 
     MyGdxGame game;
 
-	Texture dropImage, bucketImage, eagleSheet;
-	Sound dropSound;
 	Music rainMusic;
 	OrthographicCamera camera;
 
-	Vector3 touchPos = new Vector3();
-
-	Rectangle bucket;
-
-	Array<Rectangle> rainDrops;
+	Vector2 touchPos = new Vector2();
 	Array<Texture> layers;
-	int dropsCollected;
-	long lastDropTime;
-
 	Stage stage;
-
+	Bird birdAnimator;
 
 	public GameScreen(MyGdxGame game) {
 	    this.game = game;
 	    stage = new Stage(new ScreenViewport());
-		camera = (OrthographicCamera) stage.getViewport().getCamera();
-
-//		dropImage = new Texture(Gdx.files.internal("droplet.png"));
-//		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
-//
-//		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-//		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
-//		rainMusic.setLooping(true);
-//
-//		camera = new OrthographicCamera();
-//		camera.setToOrtho(false, 800, 480);
-//
-//		bucket = new Rectangle();
-//		bucket.x = 800 / 2 - 64 / 2;
-//		bucket.y = 20;
-//		bucket.width = 64;
-//		bucket.height = 64;
-//
-//		rainDrops = new Array<Rectangle>();
-//		spawnRainDrop();
-//
-//		dropsCollected = 0;
 
 		layers = new Array<Texture>();
 
@@ -82,41 +65,47 @@ public class GameScreen implements Screen {
 		stage.addActor(parallaxBackground);
 
 
-		Animator animator = new Animator();
-		animator.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		stage.addActor(animator);
+		birdAnimator = new Bird();
+		birdAnimator.setSize(64, 64);
+
+		stage.addActor(birdAnimator);
+
+		Gdx.input.setInputProcessor(new InputAdapter(){
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				birdAnimator.toggleChangeFrame();
+				return  true;
+			}
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                birdAnimator.toggleChangeFrame();
+                return true;
+            }
+        });
 
 	}
 
 	@Override
 	public void render (float delta) {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		stage.act();
 		stage.draw();
 
+
+		if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			game.setScreen(new MainMenuScreen(game));
+			dispose();
+		}
+
 	}
 
 	@Override
 	public void dispose () {
-//		dropSound.dispose();
-//		dropImage.dispose();
-//		rainMusic.dispose();
-//		bucketImage.dispose();
-//		eagleSheet.dispose();
 		stage.dispose();
 	}
 
-	public void spawnRainDrop() {
-		Rectangle rainDrop = new Rectangle();
-		rainDrop.x = MathUtils.random(0, 800 - 64);
-		rainDrop.y = 480;
-		rainDrop.width = 64;
-		rainDrop.height = 64;
-		rainDrops.add(rainDrop);
-		lastDropTime = TimeUtils.nanoTime();
-	}
 
     @Override
     public void show() {

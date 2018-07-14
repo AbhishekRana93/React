@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -39,6 +40,7 @@ public class MainMenuScreen implements Screen {
 
 
     public MainMenuScreen(MyGdxGame game) {
+        Gdx.input.setCatchBackKey(true);
         this.game = game;
 
         stage = new Stage(new ScreenViewport());
@@ -91,6 +93,7 @@ public class MainMenuScreen implements Screen {
         sequence.setCount(RepeatAction.FOREVER);
         sequence.setAction(seq);
 
+
 //        button.addAction(sequence);
 
 //        button.addListener(new InputListener(){
@@ -126,6 +129,10 @@ public class MainMenuScreen implements Screen {
         if(button.isChecked()) {
             game.setScreen(new GameScreen(game));
             dispose();
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            Gdx.app.exit();
         }
     }
 

@@ -33,7 +33,7 @@ public class ParallaxBackground extends Actor {
 
         for(int i = 0; i < layers.size; i++) {
 
-            srcX = scroll + i*1*scroll;
+            srcX = scroll + i*scroll;
             batch.draw(
                     layers.get(i), 0, 0, 0, 0, Gdx.graphics.getWidth(),
                     Gdx.graphics.getHeight(), 1, 1, 0, srcX, srcY,
