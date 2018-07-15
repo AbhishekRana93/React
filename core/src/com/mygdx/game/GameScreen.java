@@ -19,12 +19,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.awt.Button;
@@ -50,9 +52,14 @@ public class GameScreen implements Screen {
 	Stage stage;
 	Bird birdAnimator;
 
+	World world;
+
 	public GameScreen(MyGdxGame game) {
 	    this.game = game;
-	    stage = new Stage(new ScreenViewport());
+
+	    camera = new OrthographicCamera(800,480);
+	    stage = new Stage(new ScreenViewport(camera));
+
 
 		layers = new Array<Texture>();
 
@@ -65,24 +72,70 @@ public class GameScreen implements Screen {
 		stage.addActor(parallaxBackground);
 
 
-		birdAnimator = new Bird();
-		birdAnimator.setSize(64, 64);
+		world = new World(new Vector2(0, -9.8f), true);
+
+		birdAnimator = new Bird(world, Gdx.graphics.getWidth()/16, Gdx.graphics.getHeight()/2);
+		birdAnimator.setBounds(1000, 0, 800, 480);
 
 		stage.addActor(birdAnimator);
+
 
 		Gdx.input.setInputProcessor(new InputAdapter(){
 			@Override
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				birdAnimator.toggleChangeFrame();
+				birdAnimator.setShouldFly(false);
+				birdAnimator.setMoveForwardFlag(false);
+				birdAnimator.setMoveBackwardsFlag(false);
 				return  true;
 			}
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                birdAnimator.toggleChangeFrame();
+				Vector2 touchPosition = birdAnimator.screenToLocalCoordinates(new Vector2(screenX,
+						screenY));
+
+				Gdx.app.log("Touch pos ", touchPosition.x + " " + touchPosition.y);
+
+				if( touchPosition.x > birdAnimator.currentPositionX &&
+						touchPosition.y > birdAnimator.currentPositionY) {
+					birdAnimator.setMoveForwardFlag(true);
+					birdAnimator.setMoveBackwardsFlag(false);
+//					birdAnimator.setRotateClockwise(false);
+				}
+				else if(touchPosition.x <= birdAnimator.currentPositionX &&
+						touchPosition.y > birdAnimator.currentPositionY){
+					birdAnimator.setMoveForwardFlag(false);
+					birdAnimator.setMoveBackwardsFlag(true);
+//					birdAnimator.setRotateClockwise(false);
+				}
+				else if(touchPosition.x <= birdAnimator.currentPositionX &&
+						touchPosition.y <= birdAnimator.currentPositionY){
+					birdAnimator.setMoveForwardFlag(false);
+					birdAnimator.setMoveBackwardsFlag(true);
+//					birdAnimator.setRotateClockwise(true);
+				}
+				else if(touchPosition.x > birdAnimator.currentPositionX &&
+						touchPosition.y <= birdAnimator.currentPositionY){
+					birdAnimator.setMoveForwardFlag(true);
+					birdAnimator.setMoveBackwardsFlag(false);
+//					birdAnimator.setRotateClockwise(true);
+				}
+
+				birdAnimator.setShouldFly(true);
                 return true;
             }
-        });
+
+
+
+//			@Override
+//			public boolean touchDragged(int screenX, int screenY, int pointer) {
+//				Vector2 touchPos = birdAnimator.screenToLocalCoordinates(new Vector2(screenX, screenY));
+//				Gdx.app.log("Touch pos ", screenX + " " + screenY + " " + pointer);
+//				birdAnimator.currentPositionY = touchPos.y;
+//				birdAnimator.currentPositionX = touchPos.x;
+//				return true;
+//			}
+		});
 
 	}
 
@@ -93,6 +146,7 @@ public class GameScreen implements Screen {
 		stage.act();
 		stage.draw();
 
+		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 
 		if(Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 			game.setScreen(new MainMenuScreen(game));
