@@ -1,0 +1,138 @@
+bird_walk.png
+size: 948, 623
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+walk
+  rotate: false
+  xy: 689, 148
+  size: 150, 164
+  orig: 300, 300
+  offset: 72, 14
+  index: 1
+walk
+  rotate: false
+  xy: 339, 462
+  size: 150, 158
+  orig: 300, 300
+  offset: 74, 19
+  index: 2
+walk
+  rotate: false
+  xy: 794, 461
+  size: 153, 145
+  orig: 300, 300
+  offset: 78, 30
+  index: 3
+walk
+  rotate: false
+  xy: 188, 316
+  size: 154, 144
+  orig: 300, 300
+  offset: 81, 29
+  index: 4
+walk
+  rotate: false
+  xy: 374, 151
+  size: 164, 144
+  orig: 300, 300
+  offset: 79, 26
+  index: 5
+walk
+  rotate: false
+  xy: 556, 1
+  size: 173, 145
+  orig: 300, 300
+  offset: 74, 24
+  index: 6
+walk
+  rotate: false
+  xy: 188, 161
+  size: 182, 153
+  orig: 300, 300
+  offset: 71, 22
+  index: 7
+walk
+  rotate: false
+  xy: 188, 1
+  size: 184, 158
+  orig: 300, 300
+  offset: 71, 21
+  index: 8
+walk
+  rotate: false
+  xy: 1, 1
+  size: 185, 160
+  orig: 300, 300
+  offset: 72, 21
+  index: 9
+walk
+  rotate: false
+  xy: 1, 163
+  size: 185, 159
+  orig: 300, 300
+  offset: 72, 21
+  index: 10
+walk
+  rotate: false
+  xy: 1, 324
+  size: 183, 154
+  orig: 300, 300
+  offset: 71, 22
+  index: 11
+walk
+  rotate: false
+  xy: 374, 1
+  size: 180, 148
+  orig: 300, 300
+  offset: 71, 22
+  index: 12
+walk
+  rotate: false
+  xy: 731, 1
+  size: 168, 145
+  orig: 300, 300
+  offset: 77, 25
+  index: 13
+walk
+  rotate: false
+  xy: 372, 297
+  size: 160, 145
+  orig: 300, 300
+  offset: 81, 26
+  index: 14
+walk
+  rotate: false
+  xy: 534, 297
+  size: 153, 145
+  orig: 300, 300
+  offset: 80, 29
+  index: 15
+walk
+  rotate: false
+  xy: 794, 314
+  size: 152, 145
+  orig: 300, 300
+  offset: 77, 30
+  index: 16
+walk
+  rotate: false
+  xy: 186, 462
+  size: 151, 160
+  orig: 300, 300
+  offset: 73, 17
+  index: 17
+walk
+  rotate: false
+  xy: 642, 444
+  size: 150, 165
+  orig: 300, 300
+  offset: 72, 13
+  index: 18
+walk
+  rotate: false
+  xy: 491, 444
+  size: 149, 167
+  orig: 300, 300
+  offset: 71, 11
+  index: 19

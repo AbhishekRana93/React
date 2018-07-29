@@ -1,0 +1,61 @@
+plane.png
+size: 445, 2033
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dead
+  rotate: false
+  xy: 1, 1749
+  size: 442, 283
+  orig: 465, 319
+  offset: 0, 36
+  index: 1
+Fly
+  rotate: false
+  xy: 1, 1179
+  size: 443, 283
+  orig: 443, 302
+  offset: 0, 19
+  index: 1
+Fly
+  rotate: false
+  xy: 1, 1464
+  size: 443, 283
+  orig: 443, 302
+  offset: 0, 19
+  index: 2
+shoot
+  rotate: false
+  xy: 1, 607
+  size: 443, 284
+  orig: 443, 302
+  offset: 0, 18
+  index: 1
+shoot
+  rotate: false
+  xy: 1, 1
+  size: 443, 302
+  orig: 443, 302
+  offset: 0, 0
+  index: 2
+shoot
+  rotate: false
+  xy: 1, 305
+  size: 443, 300
+  orig: 443, 302
+  offset: 0, 2
+  index: 3
+shoot
+  rotate: false
+  xy: 1, 893
+  size: 443, 284
+  orig: 443, 302
+  offset: 0, 18
+  index: 4
+shoot
+  rotate: false
+  xy: 1, 1179
+  size: 443, 283
+  orig: 443, 302
+  offset: 0, 19
+  index: 5

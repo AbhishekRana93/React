@@ -1,0 +1,12 @@
+planeBg.png
+size: 1462, 1097
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG
+  rotate: false
+  xy: 1, 1
+  size: 1460, 1095
+  orig: 1460, 1095
+  offset: 0, 0
+  index: -1

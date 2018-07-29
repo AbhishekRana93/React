@@ -1,0 +1,12 @@
+crate.png
+size: 108, 108
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Crate
+  rotate: false
+  xy: 1, 1
+  size: 106, 106
+  orig: 106, 106
+  offset: 0, 0
+  index: -1
