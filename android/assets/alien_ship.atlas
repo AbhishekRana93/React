@@ -1,0 +1,12 @@
+alien_ship.png
+size: 464, 506
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+alien
+  rotate: false
+  xy: 0, 0
+  size: 464, 506
+  orig: 464, 506
+  offset: 0, 0
+  index: -1

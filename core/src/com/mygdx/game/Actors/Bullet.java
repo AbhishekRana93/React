@@ -49,6 +49,8 @@ public class Bullet extends Actor {
         bulletBody.createFixture(polygonShape, 1f);
         bulletBody.setGravityScale(0f);
         bulletBody.setFixedRotation(true);
+        String desc = "Bullet";
+        bulletBody.setUserData(desc);
 
         stateTime = 0f;
         polygonShape.dispose();

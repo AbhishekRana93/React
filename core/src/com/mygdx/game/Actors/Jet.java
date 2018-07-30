@@ -8,22 +8,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.MyGdxGame;
 
 import java.util.ArrayList;
@@ -110,27 +102,28 @@ public class Jet extends Actor{
                 jetBody.getPosition().y * PIXELS_TO_METRES - planeHeight/2);
 
         if(startRotation) {
-            float nextAngle = jetBody.getAngle() + jetBody.getAngularVelocity() / 10.0f;
-            Gdx.app.log("Next angle", nextAngle*MathUtils.radiansToDegrees + "");
+            float nextAngle = jetBody.getAngle() + jetBody.getAngularVelocity() / 3.0f;
+//            Gdx.app.log("Next angle", nextAngle*MathUtils.radiansToDegrees + "");
             float totalRotation = 360*MathUtils.degreesToRadians - nextAngle;
-            Gdx.app.log("totalRotation", totalRotation*MathUtils.radiansToDegrees + "");
+//            Gdx.app.log("totalRotation", totalRotation*MathUtils.radiansToDegrees + "");
             while ( totalRotation < -360 * MathUtils.degreesToRadians) totalRotation += 360 * MathUtils.degreesToRadians;
             while ( totalRotation >  360 * MathUtils.degreesToRadians) totalRotation -= 360 * MathUtils.degreesToRadians;
 
             float desiredAngularVelocity = totalRotation * 30;
-            Gdx.app.log("desiredAngularVelocity", desiredAngularVelocity + "");
-            Gdx.app.log("getInertia", jetBody.getInertia() + "");
+//            Gdx.app.log("desiredAngularVelocity", desiredAngularVelocity + "");
+//            Gdx.app.log("getInertia", jetBody.getInertia() + "");
 
             torque = jetBody.getInertia() * desiredAngularVelocity/ (1/10.0f);
-            Gdx.app.log("Torque" , torque + "");
+//            Gdx.app.log("Torque" , torque + "");
             jetBody.applyTorque(torque, true);
 
-//            if( ) {
+            if(torque < 0.01f && torque > -0.01f) {
 //                Gdx.app.log("Turnign off startRotation, setting 0 angle", "Ok then");
-//                startRotation = false;
-//                jetBody.setTransform(jetBody.getPosition(), 0);
+                startRotation = false;
+                jetBody.setTransform(jetBody.getPosition(), 0);
+
 //                jetBody.applyTorque(-torque, true);
-//            }
+            }
 //
 //            if(world.getJointCount() == 0) {
 //                world.createJoint(revoluteJointDef);
@@ -142,7 +135,7 @@ public class Jet extends Actor{
         for(Bullet b : bulletList) {
             if(b.bulletBody.getPosition().x*PIXELS_TO_METRES >= 750) {
                 removeBulletList.add(b);
-                Gdx.app.log("Removing bullet", "No wis the time");
+//                Gdx.app.log("Removing bullet", "No wis the time");
                 b.remove();
                 world.destroyBody(b.bulletBody);
             }

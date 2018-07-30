@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import com.mygdx.game.Actors.Alien;
 import com.mygdx.game.Actors.Bird;
 import com.mygdx.game.Actors.Box2DObject;
 import com.mygdx.game.Actors.Bullet;
@@ -27,6 +28,7 @@ import com.mygdx.game.Actors.Jet;
 import com.mygdx.game.InputHandlers.InputHandler;
 import com.mygdx.game.InputHandlers.JetInputHandler;
 import com.mygdx.game.InputHandlers.UiInputHandler;
+import com.mygdx.game.Listeners.ListenerClass;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Actors.ParallaxBackground;
 
@@ -51,6 +53,8 @@ public class GameScreen implements Screen {
 
 	Box2DDebugRenderer debugRenderer;
     Matrix4 debugMatrix;
+
+    ListenerClass listenerClass;
 
 	public GameScreen(MyGdxGame game) {
 	    this.game = game;
@@ -77,6 +81,9 @@ public class GameScreen implements Screen {
 		Jet jet = new Jet(world, game, camera);
 		stage.addActor(jet);
 
+		Alien alien = new Alien(world, jet, game);
+		stage.addActor(alien);
+
 
 //		birdAnimator = new Bird(world, game);
 //		stage.addActor(birdAnimator);
@@ -93,6 +100,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		debugRenderer = new Box2DDebugRenderer();
+		listenerClass = new ListenerClass();
 	}
 
 	@Override
@@ -108,6 +116,7 @@ public class GameScreen implements Screen {
 		stage.draw();
 		game.batch.end();
 
+		world.setContactListener(listenerClass);
 		world.step(1/60f, 6, 2);
 		debugRenderer.render(world, debugMatrix);
 

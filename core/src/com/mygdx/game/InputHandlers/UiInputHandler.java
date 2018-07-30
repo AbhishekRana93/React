@@ -34,11 +34,11 @@ public class UiInputHandler extends InputAdapter {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        Gdx.app.log("Clicked", "On Screen" + Gdx.graphics.getDeltaTime() );
+//        Gdx.app.log("Clicked", "On Screen" + Gdx.graphics.getDeltaTime() );
         Vector3 touchPos = camera.unproject(new Vector3(screenX, screenY, 0f));
         Vector2 currentBodyPos = jetBody.getPosition();
         Vector3 movePos = touchPos.sub(new Vector3(currentBodyPos.x * 100, currentBodyPos.y*100, 0));
-        Gdx.app.log("Movepos magnitude", "" + movePos.toString() + ", " + movePos.len());
+//        Gdx.app.log("Movepos magnitude", "" + movePos.toString() + ", " + movePos.len());
         if(movePos.len() <= 50) return  false;
         movePos.nor();
 
@@ -47,18 +47,23 @@ public class UiInputHandler extends InputAdapter {
 
         float angle = (float) Math.atan2( movePos.y, movePos.x) ;
         float degAngle = angle* MathUtils.radiansToDegrees;
-        Gdx.app.log("JetBody position ", jetBody.getPosition().toString());
+//        Gdx.app.log("JetBody position ", jetBody.getPosition().toString());
+
 //        Gdx.app.log("RotBody position ", jet.rotationBody.getPosition().toString());
-        if(degAngle > 85 || degAngle < -85) {
+        if(degAngle > 90 || degAngle < -90) {
 //            jet.rotationBody.setTransform(new Vector2(currentBodyPos.x - 0.06f, currentBodyPos.y), 0);
+            if(jet.startRotation) return true;
             jetBody.setLinearVelocity(move2d);
+            jetBody.setLinearDamping(2f);
 //            jet.rotationBody.setType(BodyDef.BodyType.StaticBody);
             jet.startRotation = true;
 //            jetBody.setAngularVelocity(0.1f);
         }
         else {
+
 //            jet.rotationBody.setType(BodyDef.BodyType.DynamicBody);
-//            jetBody.setLinearVelocity(move2d);
+            jetBody.setLinearVelocity(move2d);
+            jetBody.setLinearDamping(0.5f);
 //            jet.rotationBody.setLinearVelocity(move2d);
         }
 
